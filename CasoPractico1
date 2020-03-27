@@ -1,0 +1,60 @@
+#!bin/bash
+
+#Se pide crear un script que muestre el siguiente menú:
+# Ver directorio actual [1]
+# Copiar archivos [2]
+# Editar archivos [3]
+# Imprimir Archivos [4]
+# Salir del menú [5]   
+
+#Donde :
+
+# Si se elige la primera opción , se mostrarán los archivos del directorio   # actual .
+# Si se elige la segunda opción , se le pedirá el nombre del archivo que se
+# quiere copiar y el nombre del archivo donde se quiere copiar .
+# Si se elige la tercera opción , se le pedirá el nombre del archivo que se 
+# quiere editar y se abrirá el editor vi .
+# Si se elige la cuarta opción , se le pedirá el nombre del archivo que se   # quiere imprimir y se imprimirá el mismo .
+# Si se elige la quinta opción , se saldrá del script .
+
+echo ""
+echo "Elige una de las siguientes opciones"
+echo ""
+echo " Ver directorio actual [1]"
+echo " Copiar archivos [2]"
+echo " Editar archivos [3]"
+echo " Imprimir Archivos [4]"
+echo " Salir del menú [5]" 
+echo ""
+read -p "Seleccione la opción a ejecutar y pulse intro:" op
+
+case $op in
+1)
+echo ""
+echo "El contenido del directorio actual es:"
+dir -a
+;;
+2)
+echo ""         
+read -p "introduce el nombre del archivo que desea copiar:" cop
+read -p "introduce el nombre del archivo donde se desea pegar:" peg
+cp $cop $peg
+;;
+3)
+echo""  
+read -p "introduce el nombre del archivo que desea editar:" edit
+vi $edit
+;;
+4)
+echo""  
+read -p "introduce el nombre del archivo que desea imprimir:" impr
+pr $impr
+;;
+5)
+exit
+;;
+
+esac
+                                                                            
+                                   
+                                   

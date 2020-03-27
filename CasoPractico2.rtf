@@ -1,0 +1,152 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf100
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 # PR\'c1CTICA 2 Buena\
+\
+# Considera un sistema de cifrado en el que se sustituye cada letra en el texto original\
+# que se encuentra un n\'famero fijo de posiciones m\'e1s adelante en el alfabeto.Por ejemplo, si el\
+# desplazamiento es 3 posiciones y se considera la letra A,entonces ser\'eda sustituida por la \
+# letra D, que se encuentra 3 lugares a la derecha de la A.Se considera que el alfabeto es \
+# circular por lo que a continuaci\'f3n de la Z comienza la letra A.Solo se codifican las letras ,\
+# el resto de s\'edmbolos de mantienen.\
+\
+# Una vez cifrado el texto , si este contiene m\'e1s de una palabra , se reordenan las palabras \
+# cifradas moviendo cada palabra m posiciones hacia la derecha. As\'ed,la palabra que ocupa la \
+# posici\'f3n 1 se mueve a la posici\'f3n m+1 , y as\'ed sucesivamente la palabra que ocupa la posici\'f3n n\
+# se mover\'e1 a la posici\'f3n m.\
+\
+# Se pide implementar un programa en Python que solicite al usuario que introduzca por teclado\
+# un texto a codificar , dos n\'fameros que representan el desplazamiento de letras y el \
+# desplazamiento de las palabras codificadas.Como resultado , el programa mostrar\'e1 por pantalla \
+# el mensaje codificado. Se deben hacer las comprobaciones sobre la entrada , es decir , es una\
+# cadena y dos n\'fameros .\
+\
+\
+print("Introduzca el texto que desea codificar:")\
+\
+texto=input()\
+\
+def introducir_entero ():\
+    correcto=False\
+    n=()\
+    while (not correcto):\
+        try:\
+            n=int(input("Introduce el n\'famero de posiciones de desplazamiento de letras,recuerde que debe ser un entero entre 1 y 26:"))\
+            correcto=True\
+            if (n>=1 and n<=26):\
+                correcto=True\
+            else:\
+                correcto=False\
+        except ValueError:\
+                print("El n\'famero no es v\'e1lido, introduzca otro,por favor:")\
+    return n\
+\
+despll=introducir_entero()\
+print(despll)\
+t=texto.split()\
+\
+def introducir_entero2 ():\
+    correcto=False\
+    n=()\
+    while (not correcto):\
+        try:\
+            n=int(input("Introduzca el n\'famero de posiciones de desplazamiento de palabras,recuerde que debe ser un entero entre 1 y el n\'famero de palabras del texto introducido:"))\
+            correcto=True\
+            if (n>=1 and n<=len(t)):\
+                correcto=True\
+            else:\
+                correcto=False\
+        except ValueError:\
+                print("El n\'famero no es v\'e1lido, introduzca otro,por favor:")\
+    return n\
+\
+desplp=introducir_entero2()\
+ts=[texto[i] for i in range(len(texto))]\
+ab=["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]\
+\
+abc= []\
+abc=[ab[(i+despll)%26] for i in range(len(ab))]\
+\
+texton=[]\
+for i in range(len(texto)):\
+    if texto[i]=='a':\
+        texton.append(abc[0])\
+    elif texto[i]=='b':\
+          texton.append(abc[1])\
+    elif texto[i]=='c':\
+          texton.append(abc[2])\
+    elif texto[i]=='d':\
+          texton.append(abc[3])\
+    elif texto[i]=='e':\
+          texton.append(abc[4])\
+    elif texto[i]=='f':\
+          texton.append(abc[5])\
+    elif texto[i]=='g':\
+          texton.append(abc[6])\
+    elif texto[i]=='h':\
+          texton.append(abc[7])\
+    elif texto[i]=='i':\
+          texton.append(abc[8])\
+    elif texto[i]=='j':\
+          texton.append(abc[9])\
+    elif texto[i]=='k':\
+          texton.append(abc[10])\
+    elif texto[i]=='l':\
+          texton.append(abc[11])\
+    elif texto[i]=='m':\
+          texton.append(abc[12])\
+    elif texto[i]=='n':\
+          texton.append(abc[13])\
+    elif texto[i]=='o':\
+          texton.append(abc[14])\
+    elif texto[i]=='p':\
+          texton.append(abc[15])\
+    elif texto[i]=='q':\
+          texton.append(abc[16])\
+    elif texto[i]=='r':\
+          texton.append(abc[17])\
+    elif texto[i]=='s':\
+          texton.append(abc[18])\
+    elif texto[i]=='t':\
+          texton.append(abc[19])\
+    elif texto[i]=='u':\
+          texton.append(abc[20])\
+    elif texto[i]=='v':\
+          texton.append(abc[21])\
+    elif texto[i]=='w':\
+          texton.append(abc[22])\
+    elif texto[i]=='x':\
+          texton.append(abc[23])\
+    elif texto[i]=='y':\
+          texton.append(abc[24])\
+    elif texto[i]=='z':\
+          texton.append(abc[25])\
+    else:\
+        texton.append('.')\
+        \
+print(texton)\
+        \
+delimitador = ' '\
+texton2=delimitador.join(texton)\
+\
+m=list(texton2)\
+print(texton2.replace(' ', ''))\
+texton3=texton2.split('.')\
+\
+print(len(texton3))\
+print(desplp)\
+range(len(texton3))\
+\
+desplp2=desplp+len(texton3)-4\
+sol= []\
+sol=[texton3[(i+desplp2)%len(texton3)] for i in range(len(texton3))]\
+                     \
+\
+str(sol)\
+print(sol)\
+\
+}
