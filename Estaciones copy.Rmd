@@ -1,0 +1,117 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+
+```{r}
+rm(list=ls())
+```
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+```{r}
+setwd("/Users/javiermartinmartin/RSpatialTutorialDef/RSpatialTutorial/")
+library(rgdal)
+library(tmap)
+library(dplyr)
+library(rgdal)
+library(tmap)
+library(rgeos)
+install.packages("wesanderson")
+library(wesanderson)
+```
+```{r}
+estaciones <- read.csv2("/Users/javiermartinmartin/bases_bicimad.csv",sep = ",")
+str(estaciones)
+estacionesL<-select(estaciones,-Número,-Barrio,-Calle,-Nº.Finca,-Tipo.de.Reserva)
+View(estacionesL)
+str(estacionesL)
+```
+```{r}
+estacionesG <- readOGR(dsn = "data", layer = "DISTRITOS")
+```
+```{r}
+EPSG <- make_EPSG()
+```
+```{r}
+EPSG[grepl("WGS 84$", EPSG$note), ]
+```
+```{r}
+estacionesG_gs84 <- spTransform(estacionesG, CRS("+init=epsg:4326"))
+```
+```{r}
+proj4string(estacionesG_gs84)
+```
+```{r}
+library(maptools)  
+library(sp)
+library(sf)
+
+spdfl<-list(estacionesG_gs84)
+
+centroides <-list()
+
+# For Loop
+for (i in 1:length(spdfl)) {
+  centroides[[i]] <- spdfl[[i]] %>% 
+    sf::st_as_sf() %>%        
+    sf::st_centroid() %>%       
+    as(.,'Spatial')  
+
+}
+
+plot(spdfl[[1]],col = wes_palette(n=21, name="Royal1",type = "continuous"))
+plot(centroides[[1]], add=TRUE)
+text(centroides[[1]], labels = estacionesG_gs84$NOMBRE)
+```
+
+
+```{r}
+xy <- estacionesL[,c(6,7)]
+```
+```{r}
+x<-as.numeric(xy$Longitud)
+y<-as.numeric(xy$Latitud)
+```
+```{r}
+str(estacionesL)
+```
+
+```{r}
+coords<-select(estacionesL,-Gis_X,-Gis_Y,-Fecha.de.Alta,-Distrito,-Número.de.Plazas,-Direccion)
+```
+```{r}
+coords$Longitud<-as.numeric(coords$Longitud)
+coords$Latitud<-as.numeric(coords$Latitud)
+```
+```{r}
+data<-estacionesL
+crs    <- CRS("+init=epsg:4326") # proj4string of coords
+
+# make the spatial points data frame object
+spdf <- SpatialPointsDataFrame(coords = coords,
+                               data = data,
+                               proj4string = crs)
+```
+
+
+
+```{r}
+polygons <- sf::read_sf("/Users/javiermartinmartin/RSpatialTutorialDef/RSpatialTutorial/data/DISTRITOS.shp")
+points <- spdf
+
+
+
+# Plot data
+mapview::mapview(polygons, zcol = "NOMBRE") + mapview::mapview(points, color = "red", col.regions = "black")
+
+```
+```
+
